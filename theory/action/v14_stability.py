@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+# v14 STABILITY AUDIT — Ostrogradsky, signs, boundedness.
+# Pydroid/stdlib. Cory Brent 2026.
+import math
+print("v14 ACTION — STABILITY AUDIT")
+print("="*60)
+
+print("\n1. OSTROGRADSKY CHECK (higher derivatives)")
+print("-"*60)
+print("  Term: (k/2)(NABLA^2 u)^2 — SPATIAL Laplacian only.")
+print("  No higher TIME derivatives -> NO Ostrogradsky ghost.")
+print("  Dispersion: w^2 = c^2 k^2 + (k/rho) k^4.")
+print("  PASS: spatial higher-derivatives are safe (cf. phase-field-crystal).")
+
+print("\n2. SIGN AUDIT")
+print("-"*60)
+print("  rho(du)^2: rho>0 (mass density) -> positive KE. PASS.")
+print("  -C44(du)^2: C44=4.62e34>0 (Born stability). PASS.")
+print("  (k/2)(NABLA^2u)^2: need k>0 else w^2<0 at high k (tachyonic).")
+print("    k>0 REQUIRED (constraint on k, not derived). CONDITIONAL.")
+print("  GP: g>0 (repulsive) -> stable condensate. PASS (standard).")
+print("  -F^2/4: Maxwell sign correct. PASS.")
+print("  |D Phi|^2 - V(Phi): standard Higgs. PASS if V bounded below.")
+
+print("\n3. DANGEROUS COUPLINGS")
+print("-"*60)
+print("  -lam|psi|^2(u^2-a^2): if lam>0 and |psi|^2 large, drives")
+print("    u^2 -> a^2 (constraint). Could destabilize if lam<0.")
+print("    Need lam>0. CONDITIONAL.")
+print("  g_c psibar psi u: linear in u -> tadpole unless <u>=0")
+print("    or cancelled. Generates fermion mass m~g_c<u>. If <u>!=0")
+print("    spontaneously, need to check vacuum stability. OPEN.")
+
+print("\n4. HAMILTONIAN BOUNDEDNESS")
+print("-"*60)
+print("  KE terms: all positive (rho>0, hbar>0).")
+print("  Gradient: -C44(du)^2 negative in L -> positive in H. OK.")
+print("  (NABLA^2u)^2: positive in L -> positive in H (k>0). OK.")
+print("  V_E8(u): Weyl-invariant polynomial. Bounded below? OPEN")
+print("    (depends on degree and coefficients — not specified in v14).")
+
+print("\n5. LORENTZ VIOLATION")
+print("-"*60)
+print("  (NABLA^2u)^2 breaks Lorentz explicitly (space != time).")
+print("  Acceptable: crystal background ALREADY breaks Lorentz.")
+print("  Low-energy Lorentz emerges (phonon cone). Not a bug.")
+
+print("\n"+"="*60)
+print("VERDICT:")
+print("  No Ostrogradsky ghost (spatial HD safe).")
+print("  Signs OK conditional on: k>0, lam>0, V_E8 bounded below.")
+print("  OPEN: V_E8 explicit form, <u> tadpole cancellation,")
+print("        quantization (canonical HD phase space).")
+print("  Grade: STABLE (conditional) — not proven unstable,")
+print("         conditions identified, not all closed.")
